@@ -6,8 +6,6 @@ Super simple web server made in Golang.
 - Post requests
 
 ## Notes
-
-|`/form` | Form field. Allows Post requests|
 |Route |Description  |
 |--|--|
 |`/`|Root Route|
