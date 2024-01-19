@@ -5,27 +5,22 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"os"
 	"strings"
 )
 
 func main() {
-	scanner := bufio.NewScanner()
+	scanner := bufio.NewScanner(os.Stdin)
 	fmt.Printf("domain, hasMX, hasSPF, sprRecord, hasDMARC, dmarcRecord\n")
 
 	// Verify the domain of the email address
 	for scanner.Scan() {
-		checkDomain(scanner.Text)
+		checkDomain(scanner.Text())
 	}
 
 	if err := scanner.Err(); err != nil {
 		log.Fatal("Error: Unable to read from input %v\n", err)
 	}
-
-	// Check the syntax of the email
-
-	// Ping the email server
-
-	// Detect disposable email address
 }
 
 func checkDomain(domain string) {
@@ -54,4 +49,19 @@ func checkDomain(domain string) {
 			break
 		}
 	}
+
+	dmarcRecords, err := net.LookupTXT("_dmarc." + domain)
+	if err != nil {
+		log.Printf("Error %v\n", err)
+	}
+
+	for _, record := range dmarcRecords {
+		if strings.HasPrefix(record, "v=DMARC1") {
+			hasDMARC = true
+			dmarcRecord = record
+			break
+		}
+	}
+
+	fmt.Printf("%v, %v, %v, %v, %v, %v", domain, hasMX, hasSPF, spfRecord, hasDMARC, dmarcRecord)
 }
