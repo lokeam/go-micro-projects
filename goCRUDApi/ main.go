@@ -1,9 +1,12 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
+	"math/rand"
 	"net/http"
+	"strconv"
 
 	"github.com/gorilla/mux"
 )
@@ -23,6 +26,46 @@ type Director struct {
 
 var films []Film
 
+// API Methods
+func getAllFilms(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(films)
+}
+
+func deleteFilm(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	params := mux.Vars(r)
+	for index, item := range films {
+
+		if item.ID == params["id"] {
+			films = append(films[:index], films[index+1:]...)
+		}
+	}
+	// return all existing films after deletion
+	json.NewEncoder(w).Encode(films)
+}
+
+func getFilm(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	params := mux.Vars(r)
+
+	for _, item := range films {
+		if item.ID == params["id"] {
+			json.NewEncoder(w).Encode(item)
+			return
+		}
+	}
+}
+
+func createFilm(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	var film Film
+	_ = json.NewDecoder(r.Body).Decode(&film)
+	film.ID = strconv.Itoa(rand.Intn(10000000000))
+	films = append(films, film)
+	json.NewEncoder(w).Encode(film)
+}
+
 func main() {
 	router := mux.NewRouter()
 
@@ -31,7 +74,7 @@ func main() {
 	films = append(films, Film{ID: "2", Isan: "734425", Title: "Test Film, the Second", Director: &Director{Firstname: "Jane", Lastname: "Doh"}})
 
 	// Routes
-	router.HandleFunc("/films", getFilms).Methods("GET")
+	router.HandleFunc("/films", getAllFilms).Methods("GET")
 	router.HandleFunc("/films/{id}", getFilm).Methods("GET")
 	router.HandleFunc("/films", createFilm).Methods("POST")
 	router.HandleFunc("/films/{id}", updateFilm).Methods("PUT")
