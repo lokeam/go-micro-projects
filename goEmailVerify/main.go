@@ -3,17 +3,25 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"log"
+	"net"
+	"strings"
 )
 
 func main() {
 	scanner := bufio.NewScanner()
-	fmt.Printf("domain, hasMX, hasSPF, sprRecord, dmarcRecord\n")
-
-	// Check the syntax of the email
+	fmt.Printf("domain, hasMX, hasSPF, sprRecord, hasDMARC, dmarcRecord\n")
 
 	// Verify the domain of the email address
+	for scanner.Scan() {
+		checkDomain(scanner.Text)
+	}
 
-	// Check the mail exchange records
+	if err := scanner.Err(); err != nil {
+		log.Fatal("Error: Unable to read from input %v\n", err)
+	}
+
+	// Check the syntax of the email
 
 	// Ping the email server
 
@@ -21,5 +29,29 @@ func main() {
 }
 
 func checkDomain(domain string) {
+	var hasMX, hasSPF, hasDMARC bool
+	var spfRecord, dmarcRecord string
 
+	// Check the mail exchange records
+	mxRecords, err := net.LookupMX(domain)
+
+	if err != nil {
+		log.Printf("Error: %v\n", err)
+	}
+	if len(mxRecords) > 0 {
+		hasMX = true
+	}
+
+	textRecords, err := net.LookupTXT(domain)
+	if err != nil {
+		log.Printf("Error: %v\n", err)
+	}
+
+	for _, record := range textRecords {
+		if strings.HasPrefix(record, "v=spf1") {
+			hasSPF = true
+			spfRecord = record
+			break
+		}
+	}
 }
