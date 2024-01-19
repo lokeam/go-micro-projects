@@ -1,5 +1,5 @@
-# Go CRUD API
-Extremely small sample Create Read Update Delete API using Golang.
+# Go Site Health Checker
+Command line tool used to check if a given web address is running or currently down.
 
 All data saved locally using structs and slices.
 
@@ -23,16 +23,24 @@ All data saved locally using structs and slices.
 $  git clone git@github.com:lokeam/go-micro-projects.git
 
 # Navigate to the goEmailVerify directory
-$  cd goCRUDAPI
+$  cd goSiteHealthCheck
 
 # Install all app dependencies
 $  go mody tidy
 
-# Build the app
-$  go run build
-
-# Boot up the app
-$  go run main.go
+# Boot up the app, including a web domain (exclude https://) to check:
+# Example:
+$  go run . --domain go.dev/
 ```
-- Open a web browser, navigate to http://localhost:8000/
-- Hit any endpoint you want, observe the response in your browser or via an API plaform such as [Postman](https://www.postman.com/downloads/) for Create/Update/Delete functionality.
+Example responses:
+```bash
+
+# go.dev
+[UP] go.dev is reachable,
+ From: 192.168.50.209:56338
+ To: 216.239.36.21:80
+
+ # possiblybrokensite.com
+ [DOWN] possiblybrokensite.com is unreachable,
+ Error: dial tcp: lookup possiblybrokensite.com: no such host
+```
