@@ -12,20 +12,20 @@ func main() {
 	app := &cli.App{
 		Name:  "Site Health Checker",
 		Usage: "Verifies if site is up or down",
-		Flags: []cli.Flag(
+		Flags: []cli.Flag{
 			&cli.StringFlag{
 				Name:     "domain",
 				Aliases:  []string{"d"},
 				Usage:    "Domain name to check",
 				Required: true,
 			},
-			&clie.StringFlag{
+			&cli.StringFlag{
 				Name:     "port",
 				Aliases:  []string{"p"},
 				Usage:    "Port number to check",
 				Required: false,
 			},
-		),
+		},
 		Action: func(c *cli.Context) error {
 			port := c.String("port")
 			if c.String("port") == "" {
