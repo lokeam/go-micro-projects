@@ -25,18 +25,37 @@
         <div class="col-4">
             <h1 class="mb-4">Add Album</h1>
 
-            <form hx-post="/add-album/" hx-target="#album-list" hx-swap="beforeend">
+            <form
+              hx-post="/add-album/"
+              hx-target="#album-list"
+              hx-swap="beforeend"
+              hx-indicator="#spinner"
+            >
                 <div class="mb-2">
                     <label for="album-title">Title</label>
-                    <input type="text" name="title" id="album-title" class="form-control" />
+                    <input
+                      type="text"
+                      name="title"
+                      id="album-title"
+                      class="form-control" />
                 </div>
                 <div class="mb-3">
                     <label for="album-director">Artist</label>
-                    <input type="text" name="artist" id="album-artist" class="form-control" />
+                    <input
+                      type="text"
+                      name="artist"
+                      id="album-artist"
+                      class="form-control" />
                 </div>
 
-                <button type="submit" class="btn btn-primary">
-                    <span class="" id="spinner" role="status" aria-hidden="true"></span>
+                <button
+                  type="submit"
+                  class="btn btn-primary">
+                    <span
+                      class="spinner-border spinner-border-sm htmx-indicator"
+                      id="spinner"
+                      role="status"
+                      aria-hidden="true"></span>
                     Submit
                 </button>
             </form>
