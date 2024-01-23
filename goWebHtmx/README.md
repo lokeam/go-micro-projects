@@ -1,12 +1,14 @@
 # Go Server with HTMX
-Toy-sized Web server exploring HTMX integration
+Toy-sized Web server exploring HTMX feature integration.
 
 ## Featues
 - Using Htmx to submit form data
 - Simple routes and handlers
+- Demos Golang web templating and template fragments
+- All dynamic client side requests replaced with HTMX attribute functionality
 
 ## API Notes
-TBD
+
 
 ## Installation and Usage
 ```bash

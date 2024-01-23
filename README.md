@@ -14,3 +14,6 @@ Command Line Email Verifier. Runs verification on MX, SPF and DMARC records.
 
 ### Go Site Health Check
 Command Line Site Health Monitor. Verifies if site is running or down.
+
+### Go Web Server HTMX
+Basic web server. Demos dynamic HTMX integration with Golang templating and handlers.
