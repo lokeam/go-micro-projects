@@ -7,6 +7,12 @@
     <title>Simple Golang Server with HTMX templating</title>
   </head>
   <body>
+    <main>
+      <h1>goHtmx!</h1>
 
+      {{ range .Albums }}
+        <p>{{ .Title }} - {{ .Artist }}</p>
+      {{ end }}
+    </main>
   </body>
 </html>
