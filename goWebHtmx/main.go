@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -13,7 +12,8 @@ type Album struct {
 }
 
 func main() {
-	fmt.Println("Hello world")
+
+	/* Serve static css */
 
 	templateHandler := func(w http.ResponseWriter, r *http.Request) {
 		webtemplate := template.Must(template.ParseFiles("index.html"))
