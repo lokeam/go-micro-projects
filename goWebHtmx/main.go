@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -12,12 +13,10 @@ type Album struct {
 }
 
 func main() {
-
-	/* Serve static css */
+	fmt.Println("Hello World")
 
 	templateHandler := func(w http.ResponseWriter, r *http.Request) {
 		webtemplate := template.Must(template.ParseFiles("index.html"))
-
 		/* Sample Album data */
 		albums := map[string][]Album{
 			"Albums": {
@@ -30,10 +29,19 @@ func main() {
 				{Title: "The Black Crowes", Artist: "The Southern Harmony and Musical Companion"},
 			},
 		}
-
 		webtemplate.Execute(w, albums)
 	}
+
+	albumHandler := func(w http.ResponseWriter, r *http.Request) {
+		title := r.PostFormValue("title")
+		artist := r.PostFormValue("artist")
+
+		fmt.Println(title)
+		fmt.Println(artist)
+	}
+	/* Route Handlers */
 	http.HandleFunc("/", templateHandler)
+	http.HandleFunc("/add-album/", albumHandler)
 
 	log.Fatal(http.ListenAndServe(":8000", nil))
 }

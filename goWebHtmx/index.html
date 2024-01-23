@@ -6,15 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simple Golang Server with HTMX templating</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+    <script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
   </head>
 <body class="container">
     <div class="row mt-4 g-4">
         <div class="col-8">
             <h1 class="mb-4">Album List</h1>
 
-            <ul class="list-group fs-5 me-5" id="film-list">
+            <ul class="list-group fs-5 me-5" id="album-list">
                 {{ range .Albums }}
-                {{ block "film-list-element" .}}
+                {{ block "album-list-element" .}}
                     <li class="list-group-item bg-primary text-white">{{ .Title }} - {{ .Artist }}</li>
                 {{ end }}
                 {{ end }}
@@ -24,14 +25,14 @@
         <div class="col-4">
             <h1 class="mb-4">Add Album</h1>
 
-            <form>
+            <form hx-post="/add-album/">
                 <div class="mb-2">
-                    <label for="film-title">Title</label>
-                    <input type="text" name="title" id="film-title" class="form-control" />
+                    <label for="album-title">Title</label>
+                    <input type="text" name="title" id="album-title" class="form-control" />
                 </div>
                 <div class="mb-3">
-                    <label for="film-director">Artist</label>
-                    <input type="text" name="director" id="film-director" class="form-control" />
+                    <label for="album-director">Artist</label>
+                    <input type="text" name="artist" id="album-artist" class="form-control" />
                 </div>
 
                 <button type="submit" class="btn btn-primary">
