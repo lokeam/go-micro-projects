@@ -36,8 +36,10 @@ func main() {
 		title := r.PostFormValue("title")
 		artist := r.PostFormValue("artist")
 
-		fmt.Println(title)
-		fmt.Println(artist)
+		htmlStr := fmt.Sprintf("<li class='list-group-item bg-primary text-white'>%s - %s</li>", title, artist)
+		webtemplate, _ := template.New("albumListItem").Parse(htmlStr)
+		webtemplate.Execute(w, nil)
+
 	}
 	/* Route Handlers */
 	http.HandleFunc("/", templateHandler)
